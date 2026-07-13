@@ -12,7 +12,7 @@ use std::path::{Path, PathBuf};
 
 use crate::instance::models::InstanceConfig;
 
-const ICON_BYTES: &[u8] = include_bytes!("../../assets/icon.svg");
+const ICON_BYTES: &[u8] = include_bytes!("../../assets/icon.png");
 
 pub fn desktop_path(name: &str) -> Option<PathBuf> {
     let sanitized = sanitize(name);
@@ -43,10 +43,10 @@ pub fn desktop_path(name: &str) -> Option<PathBuf> {
 }
 
 pub fn icon_path() -> Option<PathBuf> {
-    dirs_next::data_dir().map(|d| d.join("RTML").join("icon.svg"))
+    dirs_next::data_dir().map(|d| d.join("RTML").join("icon.png"))
 }
 
-// lazily writes the bundled svg icon to disk the first time a shortcut needs it
+// lazily writes the bundled icon to disk the first time a shortcut needs it
 fn ensure_icon() -> Option<PathBuf> {
     let path = icon_path()?;
     if path.exists() {
