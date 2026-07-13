@@ -19,7 +19,7 @@
 | 文件 | 说明 |
 |------|------|
 | `rtml-0.1.0-x86_64-windows.exe` | Windows 可执行文件 |
-| `rtml-0.1.0-1-x86_64.pkg.tar.zst` | Arch Linux 包 |
+| `rtml-0.1.0-2-x86_64.pkg.tar.zst` | Arch Linux 包 |
 
 ### 构建方式
 
