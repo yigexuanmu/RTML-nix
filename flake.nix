@@ -38,9 +38,11 @@
           pkgs.openjdk8
         ];
 
+        rtmlCargo = builtins.fromTOML (builtins.readFile "${rtml-src}/Cargo.toml");
+
         rtml-unwrapped = pkgs.rustPlatform.buildRustPackage {
           pname = "rtml-unwrapped";
-          version = "0.1.0";
+          version = rtmlCargo.package.version;
           src = rtml-src;
           cargoLock.lockFile = "${rtml-src}/Cargo.lock";
           nativeBuildInputs = [

@@ -47,6 +47,8 @@ nix develop
 nix flake update rtml-src
 ```
 
+版本号从上游 `Cargo.toml` 动态读取，无需手动修改。
+
 ## 许可
 
 RTML 本体基于 GPL-3.0-or-later 协议，详见 [上游仓库](https://github.com/MEKCCK/RTML)。
