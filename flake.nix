@@ -30,6 +30,44 @@
         rustToolchain = pkgs.rust-bin.stable.latest.default.override {
           extensions = [ "rust-src" "rust-analyzer" ];
         };
+
+        jdks = [
+          pkgs.openjdk25
+          pkgs.openjdk21
+          pkgs.openjdk17
+          pkgs.openjdk8
+        ];
+
+        rtml-unwrapped = pkgs.rustPlatform.buildRustPackage {
+          pname = "rtml-unwrapped";
+          version = "0.1.0";
+          src = rtml-src;
+          cargoLock.lockFile = "${rtml-src}/Cargo.lock";
+          nativeBuildInputs = [
+            pkgs.pkg-config
+            pkgs.makeWrapper
+          ] ++ (with pkgs; [
+            openjdk17
+          ]);
+          buildInputs = [ ];
+          JAVA_HOME = "${pkgs.openjdk17}";
+          doCheck = false;
+
+          postInstall = ''
+            wrapProgram $out/bin/rtml \
+              --prefix RTML_JAVA_PATHS : ${pkgs.lib.makeSearchPath "bin/java" jdks} \
+              --set LD_LIBRARY_PATH ${pkgs.lib.makeLibraryPath [
+                pkgs.openjdk17
+              ]}
+          '';
+
+          meta = with pkgs.lib; {
+            description = "A TUI Minecraft launcher with BMCLAPI mirror support";
+            homepage = "https://github.com/MEKCCK/RTML";
+            license = licenses.gpl3Plus;
+            mainProgram = "rtml";
+          };
+        };
       in
       {
         devShells.default = pkgs.mkShell {
@@ -45,24 +83,9 @@
           '';
         };
 
-        packages.default = pkgs.rustPlatform.buildRustPackage {
-          pname = "rtml";
-          version = "0.1.0";
-          src = rtml-src;
-          cargoLock.lockFile = "${rtml-src}/Cargo.lock";
-          nativeBuildInputs = [
-            pkgs.pkg-config
-            pkgs.openjdk17
-          ];
-          buildInputs = [ ];
-          JAVA_HOME = "${pkgs.openjdk17}";
-          doCheck = false;
-          meta = with pkgs.lib; {
-            description = "A TUI Minecraft launcher with BMCLAPI mirror support";
-            homepage = "https://github.com/MEKCCK/RTML";
-            license = licenses.gpl3Plus;
-            mainProgram = "rtml";
-          };
+        packages = {
+          default = rtml-unwrapped;
+          inherit rtml-unwrapped;
         };
       }
     );
