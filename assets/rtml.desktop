@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=RTML
-Comment=Rust TUI Minecraft Launcher
-Exec=rtml
-Icon=rtml
-Terminal=true
-Type=Application
-Categories=Game;
