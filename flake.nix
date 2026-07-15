@@ -31,13 +31,6 @@
           extensions = [ "rust-src" "rust-analyzer" ];
         };
 
-        jdks = [
-          pkgs.openjdk25
-          pkgs.openjdk21
-          pkgs.openjdk17
-          pkgs.openjdk8
-        ];
-
         rtmlCargo = builtins.fromTOML (builtins.readFile "${rtml-src}/Cargo.toml");
 
         rtml-unwrapped = pkgs.rustPlatform.buildRustPackage {
@@ -48,23 +41,13 @@
           nativeBuildInputs = [
             pkgs.pkg-config
             pkgs.makeWrapper
-          ] ++ (with pkgs; [
-            openjdk17
-          ]);
+            pkgs.jdk17
+          ];
           buildInputs = [ ];
-          JAVA_HOME = "${pkgs.openjdk17}";
           doCheck = false;
 
           postInstall = ''
-            wrapProgram $out/bin/rtml \
-              --set JAVA8 ${pkgs.openjdk8}/bin/java \
-              --set JAVA17 ${pkgs.openjdk17}/bin/java \
-              --set JAVA21 ${pkgs.openjdk21}/bin/java \
-              --set JAVA25 ${pkgs.openjdk25}/bin/java \
-              --prefix RTML_JAVA_PATHS : ${pkgs.lib.makeSearchPath "bin/java" jdks} \
-              --set LD_LIBRARY_PATH ${pkgs.lib.makeLibraryPath [
-                pkgs.openjdk17
-              ]}
+            # No Java wrapping - users must provide their own JDK in PATH
           '';
 
           meta = with pkgs.lib; {
@@ -80,7 +63,7 @@
           buildInputs = [
             rustToolchain
             pkgs.pkg-config
-            pkgs.openjdk17
+            pkgs.jdk17
           ];
 
           shellHook = ''
