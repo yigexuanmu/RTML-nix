@@ -18,19 +18,6 @@ nix profile install github:yigexuanmu/RTML-nix
 nix run github:yigexuanmu/RTML-nix
 ```
 
-### 内置 JDK
-
-打包参考 PrismLauncher 方案，内置 4 个 JDK 版本，通过 `RTML_JAVA_PATHS` 环境变量暴露：
-
-| 版本 | 路径 |
-|------|------|
-| JDK 25 | `openjdk-25.0.4+1` |
-| JDK 21 | `openjdk-21.0.12+2` |
-| JDK 17 | `openjdk-17.0.20+2` |
-| JDK 8 | `openjdk-8u502-b01` |
-
-构建时默认使用 JDK 17（满足 build.rs 编译 Java shim 的需求）。
-
 ### 开发环境
 
 ```bash
