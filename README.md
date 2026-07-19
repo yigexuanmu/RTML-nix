@@ -26,14 +26,6 @@ nix develop
 
 提供 Rust stable 工具链、pkg-config、JDK 17。
 
-## 更新
-
-上游更新后，刷新 flake.lock 即可：
-
-```bash
-nix flake update rtml-src
-```
-
 ## 许可
 
 RTML 本体基于 GPL-3.0-or-later 协议，详见 [上游仓库](https://github.com/MEKCCK/RTML)。
